@@ -7,6 +7,7 @@ import carRoutes from './routes/cars.js';
 import bookingRoutes from './routes/bookings.js';
 import paymentRoutes from './routes/payments.js';
 
+
 dotenv.config();
 
 const app = express();
@@ -24,11 +25,33 @@ app.use('/api/payments', paymentRoutes);
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/car-rental')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('Connected to MongoDB');
+    // List all collections
+    mongoose.connection.db.listCollections().toArray((err, collections) => {
+      if (err) {
+        console.error('Error listing collections:', err);
+      } else {
+        console.log(
+          'Available collections:',
+          collections.map((c) => c.name)
+        );
+      }
+    });
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit if can't connect to database
+  });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+  const PORT = process.env.PORT || 4000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(
+      'MongoDB URI:',
+      process.env.MONGODB_URI.replace(/\/\/[^:]+:[^@]+@/, '//<credentials>@')
+    ); // Safe logging of URI
+  });
+
