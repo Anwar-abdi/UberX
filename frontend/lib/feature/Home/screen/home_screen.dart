@@ -1,107 +1,89 @@
+import 'package:car_rental/constant/images.dart';
+import 'package:car_rental/feature/Home/widget/brand_card.dart';
+import 'package:car_rental/feature/Home/widget/section_header.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:car_rental/feature/home/controller/auth_controller.dart';
-import '../widget/brand_card.dart'; // Import the reusable brand card widget
-import '../widget/car_card.dart'; // Import the reusable car card widget
-import '../widget/bottom_navigation_bar.dart'; // Import the reusable bottom navigation bar
+import '../widget/car_card.dart';
+import '../widget/custom_bottom_navigation_bar.dart';
+import '../widget/location_input_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.put(AuthController());
-    authController.checkTokenValidity();
-
+    final mediaQuery = MediaQuery.of(context);
+    final screenHeight = mediaQuery.size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Car Rental'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Add search functionality
-            },
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Brands Section
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Brands',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+            // Location Input Section
+            LocationInputSection(),
+            SizedBox(height: screenHeight * 0.01),
+            // Section Brand Header
+            SectionHeader(
+              title: 'Brand',
+              onAction: () {},
             ),
-            SizedBox(
-              height: 100,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [
-                  BrandCard(brandName: 'Honda', imagePath: 'assets/honda.png'),
-                  BrandCard(brandName: 'Mason', imagePath: 'assets/mason.png'),
-                  BrandCard(brandName: 'Audi', imagePath: 'assets/audi.png'),
-                  BrandCard(
-                      brandName: 'Mercedes', imagePath: 'assets/mercedes.png'),
-                ],
-              ),
+            SizedBox(height: screenHeight * 0.005),
+            // Brand List
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BrandCard(brandName: 'Honda', image: Images.honda),
+                BrandCard(brandName: 'Audi', image: Images.audi),
+                BrandCard(brandName: 'Mercedes', image: Images.mercedes),
+                BrandCard(brandName: 'Nissan', image: Images.nissan),
+              ],
             ),
-
-            // Popular Cars Section
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Popular Cars',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'See all',
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
-                  ),
-                ],
-              ),
+            SizedBox(height: screenHeight * 0.01),
+            // Section Popular Car Header
+            SectionHeader(
+              title: 'Popular Car',
+              onAction: () {},
             ),
-            const CarCard(
-              carName: 'Hyundai Verna',
-              price: 'Rs.500/hr',
-              transmission: 'Manual',
-              location: 'Pariol',
+            SizedBox(height: screenHeight * 0.005),
+            CarCard(
+              carName: "Hyundai Verna",
+              price: "500",
+              transmission: "Manual",
+              fuelType: "Petrol",
               seats: 5,
               rating: 4.9,
+              carType: "Sedan",
+              imageUrl: Images.huanda,
+              isFavorite: true,
             ),
-            const CarCard(
-              carName: 'Honda Civic',
-              price: 'Rs.600/hr',
-              transmission: 'Automatic',
-              location: 'Downtown',
+            SizedBox(height: screenHeight * 0.005),
+            CarCard(
+              carName: "Hyundai Verna",
+              price: "500",
+              transmission: "Manual",
+              fuelType: "Petrol",
               seats: 5,
-              rating: 4.8,
+              rating: 4.9,
+              carType: "Sedan",
+              imageUrl: Images.huanda,
+              isFavorite: true,
             ),
-            // Add more CarCard widgets here
+            SizedBox(height: screenHeight * 0.005),
+            CarCard(
+              carName: "Hyundai Verna",
+              price: "500",
+              transmission: "Manual",
+              fuelType: "Petrol",
+              seats: 5,
+              rating: 4.9,
+              carType: "Sedan",
+              imageUrl: Images.huanda,
+              isFavorite: true,
+            ),
           ],
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 0, // Set the index for the Home screen
-        onTap: (index) {
-          // Handle navigation to other screens
-          if (index == 1) {
-            Get.toNamed('/explore'); // Navigate to Explore screen
-          } else if (index == 2) {
-            Get.toNamed('/favorites'); // Navigate to Favorites screen
-          } else if (index == 3) {
-            Get.toNamed('/key'); // Navigate to Key screen
-          } else if (index == 4) {
-            Get.toNamed('/profile'); // Navigate to Profile screen
-          }
-        },
+        currentIndex: 0,
+        onTap: (index) {},
       ),
     );
   }
