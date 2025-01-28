@@ -1,50 +1,197 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CarCard extends StatelessWidget {
   final String carName;
   final String price;
   final String transmission;
-  final String location;
+  final String fuelType;
   final int seats;
   final double rating;
+  final String carType;
+  final String imageUrl;
+  final bool isFavorite;
 
   const CarCard({
-    Key? key,
+    super.key,
     required this.carName,
     required this.price,
     required this.transmission,
-    required this.location,
+    required this.fuelType,
     required this.seats,
     required this.rating,
-  }) : super(key: key);
+    required this.carType,
+    required this.imageUrl,
+    this.isFavorite = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final cardWidth = screenWidth * 0.9;
+
     return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      child: Container(
+        width: cardWidth,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              carName,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text('Price: $price/hr'),
-            Text('Transmission: $transmission'),
-            Text('Location: $location'),
-            Text('Seats: $seats'),
-            Row(
+            Stack(
               children: [
-                const Icon(Icons.star, color: Colors.amber),
-                Text(rating.toString()),
+                /// Car Image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    imageUrl,
+                    width: double.infinity,
+                    height: screenWidth * 0.4,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+
+                /// Rating Badge
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.amber, size: 18),
+                        const SizedBox(width: 4),
+                        Text(
+                          rating.toString(),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                /// Favorite Button
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.red,
+                    size: 24,
+                  ),
+                ),
               ],
+            ),
+
+            const SizedBox(height: 12),
+
+            /// **Car Type Label**
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                carType,
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+
+            /// **Car Name & Price**
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    carName,
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Text(
+                    'Rs. $price/hr',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            /// **Features (Transmission, Fuel, Seats)**
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FeatureIconText(
+                      icon: Icons.directions_car, text: transmission),
+                  FeatureIconText(
+                      icon: Icons.local_gas_station, text: fuelType),
+                  FeatureIconText(icon: Icons.event_seat, text: '$seats Seats'),
+                ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// **Reusable Feature Row**
+class FeatureIconText extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const FeatureIconText({super.key, required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.blue, size: 20),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }

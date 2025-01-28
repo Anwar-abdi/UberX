@@ -15,7 +15,7 @@ void main() async {
 Future<Widget> determineInitialRoute(
     String? token, SharedPreferences prefs) async {
   if (token == null || token.isEmpty) {
-    return Onboarding();
+    return HomeScreen();
   } else {
     return HomeScreen();
   }
