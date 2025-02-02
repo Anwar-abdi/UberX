@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'feature/Home/screen/navigation.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -15,9 +17,9 @@ void main() async {
 Future<Widget> determineInitialRoute(
     String? token, SharedPreferences prefs) async {
   if (token == null || token.isEmpty) {
-    return HomeScreen();
+    return Navigation();
   } else {
-    return HomeScreen();
+    return Navigation();
   }
 }
 
