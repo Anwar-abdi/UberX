@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_rental/feature/Home/controller/car_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CarCard extends StatelessWidget {
@@ -10,7 +13,7 @@ class CarCard extends StatelessWidget {
   final double rating;
   final String carType;
   final String imageUrl;
-  final bool isFavorite;
+  final String id;
 
   const CarCard({
     super.key,
@@ -22,7 +25,7 @@ class CarCard extends StatelessWidget {
     required this.rating,
     required this.carType,
     required this.imageUrl,
-    this.isFavorite = false,
+    required this.id,
   });
 
   @override
@@ -30,6 +33,7 @@ class CarCard extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
     final cardWidth = screenWidth * 0.9;
+    final CarController carController = Get.find<CarController>();
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -52,11 +56,15 @@ class CarCard extends StatelessWidget {
                 /// Car Image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
                     width: double.infinity,
                     height: screenWidth * 0.4,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error, size: 50, color: Colors.red),
                   ),
                 ),
 
@@ -82,7 +90,8 @@ class CarCard extends StatelessWidget {
                         const Icon(Icons.star, color: Colors.amber, size: 18),
                         const SizedBox(width: 4),
                         Text(
-                          rating.toString(),
+                          rating.toStringAsFixed(
+                              1), // Ensures a consistent format
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -93,15 +102,22 @@ class CarCard extends StatelessWidget {
                   ),
                 ),
 
-                /// Favorite Button
+                /// Favorite Button (Properly Positioned)
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: Colors.red,
-                    size: 24,
-                  ),
+                  child: Obx(() => InkWell(
+                        onTap: () {
+                          carController.favoriteCar(id);
+                        },
+                        child: Icon(
+                          carController.isFavorite(id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.red,
+                          size: 24,
+                        ),
+                      )),
                 ),
               ],
             ),
@@ -127,16 +143,19 @@ class CarCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    carName,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                  Expanded(
+                    child: Text(
+                      carName,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    'Rs. $price/hr',
+                    '\$ $price/hr',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -149,7 +168,7 @@ class CarCard extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            /// **Features (Transmission, Fuel, Seats)**
+            /// **Features (Transmission, Fuel, Seats) - Icons in a Row**
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
@@ -170,7 +189,7 @@ class CarCard extends StatelessWidget {
   }
 }
 
-/// **Reusable Feature Row**
+/// **Reusable Feature Row (Icons beside the text)**
 class FeatureIconText extends StatelessWidget {
   final IconData icon;
   final String text;
@@ -182,7 +201,7 @@ class FeatureIconText extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, color: Colors.blue, size: 20),
-        const SizedBox(width: 4),
+        const SizedBox(width: 6),
         Text(
           text,
           style: GoogleFonts.poppins(
@@ -190,6 +209,7 @@ class FeatureIconText extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
