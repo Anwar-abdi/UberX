@@ -46,6 +46,7 @@ class BrandInfo extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final car = carController.filteredCars[index];
                     return CarCard(
+                      id: car['_id'],
                       carName: "${car['make']} ${car['model']}",
                       price: car['pricePerHour'].toString(),
                       transmission: car['transmission'],
