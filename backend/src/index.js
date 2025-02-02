@@ -25,7 +25,7 @@ app.use('/api/payments', paymentRoutes);
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect('mongodb+srv://Anwarabdi2090:Anwar7@cluster0.ircp5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
     console.log('Connected to MongoDB');
     // List all collections
@@ -49,9 +49,9 @@ mongoose
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    console.log(
-      'MongoDB URI:',
-      process.env.MONGODB_URI.replace(/\/\/[^:]+:[^@]+@/, '//<credentials>@')
-    ); // Safe logging of URI
+    // console.log(
+    //   'MongoDB URI:',
+    //   process.env.MONGODB_URI.replace(/\/\/[^:]+:[^@]+@/, '//<credentials>@')
+    // ); // Safe logging of URI
   });
 
