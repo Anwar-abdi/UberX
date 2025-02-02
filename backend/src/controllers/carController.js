@@ -1,8 +1,18 @@
-import Car from '../models/Car.js';
+import Car from '../models/car.js';
 
 export const getAllCars = async (req, res) => {
   try {
     const cars = await Car.find();
+    res.json(cars);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// get car by make
+export const getCarsByMake = async (req, res) => {
+  try {
+    const cars = await Car.find({ make: req.params });
     res.json(cars);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });

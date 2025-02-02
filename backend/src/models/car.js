@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const carSchema = new mongoose.Schema(
   {
@@ -17,9 +17,9 @@ const carSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      enum: ['SUV', 'Sedan', 'Sports', 'Luxury'],
+      enum: ["SUV", "Sedan", "Sports", "Luxury"],
     },
-    pricePerDay: {
+    pricePerHour: {
       type: Number,
       required: true,
     },
@@ -30,7 +30,7 @@ const carSchema = new mongoose.Schema(
     transmission: {
       type: String,
       required: true,
-      enum: ['Automatic', 'Manual'],
+      enum: ["Automatic", "Manual"],
     },
     fuelType: {
       type: String,
@@ -40,15 +40,20 @@ const carSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    images: [
-      {
-        type: String,
-      },
-    ],
+    image: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model('Car', carSchema);
+export default mongoose.model("Car", carSchema);
