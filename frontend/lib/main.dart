@@ -1,5 +1,4 @@
 import 'package:car_rental/feature/onboarding/screen/onboarding_screen.dart';
-import 'package:car_rental/feature/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +16,7 @@ void main() async {
 Future<Widget> determineInitialRoute(
     String? token, SharedPreferences prefs) async {
   if (token == null || token.isEmpty) {
-    return Navigation();
+    return Onboarding();
   } else {
     return Navigation();
   }
