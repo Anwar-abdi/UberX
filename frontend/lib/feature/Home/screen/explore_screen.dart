@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../common/widget/loader.dart';
 import '../controller/car_controller.dart';
 import '../widget/car_card.dart';
+import '../widget/custom_bottom_navigation_bar.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
@@ -46,6 +47,7 @@ class ExploreScreen extends StatelessWidget {
               : Center(child: Loader()),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

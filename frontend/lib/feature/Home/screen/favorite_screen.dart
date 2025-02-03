@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller/car_controller.dart';
 import '../widget/car_card.dart';
+import '../widget/custom_bottom_navigation_bar.dart';
 
 class FavoriteScreen extends StatelessWidget {
   FavoriteScreen({super.key});
@@ -52,6 +53,7 @@ class FavoriteScreen extends StatelessWidget {
                 ),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

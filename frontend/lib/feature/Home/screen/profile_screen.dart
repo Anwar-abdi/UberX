@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../authentication/controller/user_controller.dart';
+import '../widget/custom_bottom_navigation_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
           );
         }),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
