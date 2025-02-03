@@ -2,7 +2,6 @@ import 'package:car_rental/feature/onboarding/screen/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'feature/Home/screen/navigation.dart';
 
 void main() async {

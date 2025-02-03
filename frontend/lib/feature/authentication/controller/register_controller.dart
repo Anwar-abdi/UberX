@@ -58,8 +58,10 @@ class RegisterController extends GetxController {
       if (response.statusCode == 201) {
         if (responseJson.containsKey('token')) {
           var token = responseJson['token'];
+          var userId = responseJson['userId'];
           final SharedPreferences prefs = await _prefs;
           await prefs.setString('token', token);
+          await prefs.setString('userId', userId);
 
           nameController.clear();
           emailController.clear();

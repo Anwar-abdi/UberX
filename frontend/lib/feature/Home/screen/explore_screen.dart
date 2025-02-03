@@ -29,6 +29,7 @@ class ExploreScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: carController.cars.length,
                   itemBuilder: (context, index) => CarCard(
+                    onTap: () {},
                     id: carController.cars[index]['_id'],
                     carName: carController.cars[index]['make'] +
                         ' ' +
@@ -37,7 +38,7 @@ class ExploreScreen extends StatelessWidget {
                     transmission: carController.cars[index]['transmission'],
                     fuelType: carController.cars[index]['fuelType'],
                     seats: carController.cars[index]['seats'],
-                    rating: carController.cars[index]['rating'],
+                    rating: carController.cars[index]['rating'].toString(),
                     carType: "Sedan",
                     imageUrl: carController.cars[index]['image'],
                   ),

@@ -43,6 +43,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   rename: ^3.0.2
   cached_network_image: ^3.4.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

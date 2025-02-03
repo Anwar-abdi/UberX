@@ -10,10 +10,11 @@ class CarCard extends StatelessWidget {
   final String transmission;
   final String fuelType;
   final int seats;
-  final double rating;
+  final String rating;
   final String carType;
   final String imageUrl;
   final String id;
+  final void Function() onTap;
 
   const CarCard({
     super.key,
@@ -26,6 +27,7 @@ class CarCard extends StatelessWidget {
     required this.carType,
     required this.imageUrl,
     required this.id,
+    required this.onTap,
   });
 
   @override
@@ -54,17 +56,22 @@ class CarCard extends StatelessWidget {
             Stack(
               children: [
                 /// Car Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    width: double.infinity,
-                    height: screenWidth * 0.4,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error, size: 50, color: Colors.red),
+                InkWell(
+                  onTap: onTap,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        width: double.infinity,
+                        height: screenWidth * 0.4,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) {
+                          debugPrint('Error: $error');
+                          return const Icon(Icons.error,
+                              size: 50, color: Colors.red);
+                        }),
                   ),
                 ),
 
@@ -90,8 +97,7 @@ class CarCard extends StatelessWidget {
                         const Icon(Icons.star, color: Colors.amber, size: 18),
                         const SizedBox(width: 4),
                         Text(
-                          rating.toStringAsFixed(
-                              1), // Ensures a consistent format
+                          rating,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
