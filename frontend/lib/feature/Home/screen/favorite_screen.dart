@@ -28,6 +28,7 @@ class FavoriteScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: carController.favoritedCars.length,
                   itemBuilder: (context, index) => CarCard(
+                    onTap: () {},
                     id: carController.favoritedCars[index]['_id'],
                     carName: carController.favoritedCars[index]['make'] +
                         ' ' +
@@ -38,7 +39,8 @@ class FavoriteScreen extends StatelessWidget {
                         ['transmission'],
                     fuelType: carController.favoritedCars[index]['fuelType'],
                     seats: carController.favoritedCars[index]['seats'],
-                    rating: carController.favoritedCars[index]['rating'],
+                    rating:
+                        carController.favoritedCars[index]['rating'].toString(),
                     carType: "Sedan",
                     imageUrl: carController.favoritedCars[index]['image'],
                   ),

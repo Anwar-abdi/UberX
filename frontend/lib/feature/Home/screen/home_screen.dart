@@ -2,17 +2,20 @@ import 'package:car_rental/common/widget/loader.dart';
 import 'package:car_rental/constant/images.dart';
 import 'package:car_rental/feature/Home/controller/car_controller.dart';
 import 'package:car_rental/feature/Home/screen/brand_info.dart';
+import 'package:car_rental/feature/Home/screen/car_booking_screen.dart';
 import 'package:car_rental/feature/Home/widget/brand_card.dart';
 import 'package:car_rental/feature/Home/widget/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../authentication/controller/user_controller.dart';
 import '../widget/car_card.dart';
-import '../widget/location_input_section.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final CarController carController = Get.put(CarController());
+  final UserController userController =
+      Get.put<UserController>(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,13 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             // Location Input Section
-            LocationInputSection(),
-            SizedBox(height: screenHeight * 0.01),
+
+            SizedBox(height: screenHeight * 0.05),
+            Obx(
+              () => SectionHeader(
+                title: '${userController.username.value}, Welcome to Uberx',
+              ),
+            ),
             // Section Brand Header
             SectionHeader(
               title: 'Brand',
@@ -70,6 +78,11 @@ class HomeScreen extends StatelessWidget {
                       itemCount: (carController.cars.length + 3) -
                           carController.cars.length,
                       itemBuilder: (context, index) => CarCard(
+                        onTap: () {
+                          Get.to(() => CarBookingWidget(
+                                carId: carController.cars[index]['_id'],
+                              ));
+                        },
                         id: carController.cars[index]['_id'],
                         carName: carController.cars[index]['make'] +
                             ' ' +
@@ -79,8 +92,8 @@ class HomeScreen extends StatelessWidget {
                         transmission: carController.cars[index]['transmission'],
                         fuelType: carController.cars[index]['fuelType'],
                         seats: carController.cars[index]['seats'],
-                        rating: carController.cars[index]['rating'],
-                        carType: "Sedan",
+                        rating: carController.cars[index]['rating'].toString(),
+                        carType: carController.cars[index]['type'],
                         imageUrl: carController.cars[index]['image'],
                       ),
                     )

@@ -1,15 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User", // Reference to the User model
       required: true,
     },
     car: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Car',
+      ref: "Car", // Reference to the Car model
       required: true,
     },
     startDate: {
@@ -20,27 +20,24 @@ const bookingSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    totalPrice: {
-      type: Number,
+    rentType: {
+      type: String,
+      enum: ["self-drive", "with-driver"], // Restrict values
       required: true,
     },
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'completed', 'cancelled'],
-      default: 'pending',
+      enum: ["pending", "approved", "rejected", "cancelled"],
+      default: "pending",
     },
-    paymentStatus: {
-      type: String,
-      enum: ['pending', 'paid', 'failed'],
-      default: 'pending',
-    },
-    paymentId: {
-      type: String,
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export default mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
+
+export default Booking;

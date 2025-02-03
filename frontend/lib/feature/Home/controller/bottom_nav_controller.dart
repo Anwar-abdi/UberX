@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../screen/explore_screen.dart';
 import '../screen/favorite_screen.dart';
 import '../screen/home_screen.dart';
+import '../screen/profile_screen.dart';
 
 class BottomNavController extends GetxController {
   var currentIndex = 0.obs;
@@ -15,7 +16,6 @@ class BottomNavController extends GetxController {
     HomeScreen(),
     ExploreScreen(),
     FavoriteScreen(),
-    // const KeyScreen(),
-    // const ProfileScreen(),
+    const ProfileScreen(),
   ];
 }
