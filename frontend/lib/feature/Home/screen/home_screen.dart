@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../authentication/controller/user_controller.dart';
 import '../widget/car_card.dart';
+import '../widget/custom_bottom_navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -102,6 +103,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

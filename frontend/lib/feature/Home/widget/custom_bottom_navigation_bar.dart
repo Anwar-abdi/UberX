@@ -21,7 +21,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 icon: Icon(Icons.explore), label: 'Explore'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: 'Favorite'),
-            BottomNavigationBarItem(icon: Icon(Icons.vpn_key), label: 'Key'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ));
